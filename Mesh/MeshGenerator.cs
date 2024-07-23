@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media.Media3D;
 
@@ -6,20 +7,23 @@ namespace MyHelixApp.Mesh
 {
     public class MeshGenerator
     {
+        private List<Point3DCollection> triangleEdges = new List<Point3DCollection>(); // Initialize triangleEdges
+
         public MeshGeometry3D GenerateMesh(int tiles = 16, double size = 1.0)
         {
             MeshGeometry3D mesh = new MeshGeometry3D();
             double offset = tiles * size / 2.0;
             Random random = new Random();
 
-            GeneratePositionsAndTextureCoordinates(mesh, tiles, size, offset, random);
-            GenerateTriangleIndices(mesh, tiles);
+            //GeneratePositionsAndTextureCoordinates(tiles, size, offset, random);
+            //GenerateTriangleIndices(mesh, tiles);
 
             return mesh;
         }
 
-        private void GeneratePositionsAndTextureCoordinates(MeshGeometry3D mesh, int tiles, double size, double offset, Random random)
+        public MeshGeometry3D GeneratePositionsAndTextureCoordinates(int tiles, double size, double offset, Random random)
         {
+            MeshGeometry3D mesh = new MeshGeometry3D();
             for (int i = 0; i <= tiles; i++)
             {
                 for (int j = 0; j <= tiles; j++)
@@ -34,9 +38,10 @@ namespace MyHelixApp.Mesh
                     mesh.TextureCoordinates.Add(new Point(v, 1.0 - u));
                 }
             }
+            return mesh;
         }
 
-        private void GenerateTriangleIndices(MeshGeometry3D mesh, int tiles)
+        public List<Point3DCollection> GenerateTriangleIndices(MeshGeometry3D mesh, int tiles)
         {
             for (int i = 0; i < tiles; i++)
             {
@@ -50,12 +55,16 @@ namespace MyHelixApp.Mesh
                     mesh.TriangleIndices.Add(topLeft);
                     mesh.TriangleIndices.Add(bottomLeft);
                     mesh.TriangleIndices.Add(topRight);
+                    triangleEdges.Add(new Point3DCollection { mesh.Positions[topLeft], mesh.Positions[bottomLeft], mesh.Positions[topRight], mesh.Positions[topLeft] });
 
                     mesh.TriangleIndices.Add(topRight);
                     mesh.TriangleIndices.Add(bottomLeft);
                     mesh.TriangleIndices.Add(bottomRight);
+                    triangleEdges.Add(new Point3DCollection { mesh.Positions[topRight], mesh.Positions[bottomLeft], mesh.Positions[bottomRight], mesh.Positions[topRight] });
+
                 }
             }
+            return triangleEdges;
         }
     }
 }
