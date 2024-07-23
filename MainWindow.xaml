@@ -3,10 +3,21 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:helix="http://helix-toolkit.org/wpf"
         xmlns:local="clr-namespace:MyHelixApp"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <helix:HelixViewport3D x:Name="helixViewport" IsPanEnabled="True" ShowFrameRate="True" ShowCameraInfo="True" ShowCameraTarget="True" ShowCoordinateSystem="True" ShowFieldOfView="True" ShowTriangleCountInfo="True">
+            <!--IsPanEnabled="True" MouseLeftButtonDown="HelixViewport_MouseLeftButtonDown" MouseLeftButtonUp="HelixViewport_MouseLeftButtonUp" MouseMove="HelixViewport_MouseMove">-->
+
+
+
+        </helix:HelixViewport3D>
+
+        <Button Content="Toggle View" HorizontalAlignment="Left" VerticalAlignment="Top" Click="OnToggleViewButtonClick" />
+        <Button Content="Inspect Mode" HorizontalAlignment="Left" VerticalAlignment="Top" Click="InspectMode_Click" Margin="0,21,0,0"/>
+        <Button Content="Walkaround Mode" HorizontalAlignment="Left" VerticalAlignment="Top" Click="WalkaroundMode_Click" Margin="0,41,0,0"/>
+        <Button Content="FixedPosition Mode" HorizontalAlignment="Left" VerticalAlignment="Top" Click="FixedPositionMode_Click" Margin="0,61,0,0"/>
     </Grid>
 </Window>
