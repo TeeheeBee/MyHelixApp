@@ -16,13 +16,15 @@ using System.Windows.Shapes;
 namespace MyHelixApp
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for MainWindow.xaml  !!!!
     /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
+            int a = 3;
+            int b = 4;
         }
     }
 }
