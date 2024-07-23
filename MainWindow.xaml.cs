@@ -29,7 +29,6 @@ namespace MyHelixApp
             Setup3DScene();
             helixViewport.PanGesture = null;
             helixViewport.PanGesture2 = new MouseGesture(MouseAction.LeftClick);
-            int a = 3;
         }
 
         private void LoadBitmap()
