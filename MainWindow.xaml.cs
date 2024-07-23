@@ -7,6 +7,9 @@ using System.Windows.Media.Media3D;
 using HelixToolkit.Wpf;
 using System.Windows.Input;
 using System.Windows.Threading;
+using System.IO;
+using MyHelixApp.Mesh;
+using MyHelixApp.Visualization;
 
 namespace MyHelixApp
 {
@@ -15,7 +18,9 @@ namespace MyHelixApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        private const string imagePath = @"C:\Users\tbozic\source\repos\MyHelix3DApp\earth.jpg";
+
+        private const string imagePath = @"Images\earth.jpg"; //@"C:\Users\tbozic\source\repos\MyHelix3DApp\earth.jpg";
+        private string fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, imagePath);
         private BitmapImage bitmapImage;
         private bool showWireframe = false; // Toggle state
         private ModelVisual3D meshModel;
@@ -25,16 +30,22 @@ namespace MyHelixApp
         public MainWindow()
         {
             InitializeComponent();
-            LoadBitmap();
+            LoadBitmap(fullPath);
             Setup3DScene();
             helixViewport.PanGesture = null;
             helixViewport.PanGesture2 = new MouseGesture(MouseAction.LeftClick);
         }
 
-        private void LoadBitmap()
+        private void LoadBitmap(string fullPath)
         {
-            bitmapImage = new BitmapImage(new Uri(imagePath, UriKind.Absolute));
+            bitmapImage = new BitmapImage(new Uri(fullPath, UriKind.Absolute));
         }
+
+        //private BitmapImage LoadBitmap(string fullPath)
+        //{
+        //    return new BitmapImage(new Uri(fullPath, UriKind.Absolute));
+        //    //bitmapImage = new BitmapImage(new Uri(fullPath));
+        //}
 
         private void Setup3DScene()
         {
@@ -48,7 +59,18 @@ namespace MyHelixApp
 
             };
 
+            //// Create instances of the generator and creator
+            //MeshGenerator meshGenerator = new MeshGenerator();
+            //ModelVisualCreator modelVisualCreator = new ModelVisualCreator();
 
+            //// Generate the mesh
+            //MeshGeometry3D mesh = meshGenerator.GenerateMesh();
+
+            //// Create the image brush
+            //ImageBrush imageBrush = new ImageBrush(bitmapImage);
+
+            //// Create the ModelVisual3D
+            //meshModel = modelVisualCreator.CreateModelVisual(mesh, imageBrush);
 
             // Add default lights
             helixViewport.Children.Add(new DefaultLights());
