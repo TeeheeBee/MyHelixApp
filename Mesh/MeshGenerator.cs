@@ -7,19 +7,6 @@ namespace MyHelixApp.Mesh
 {
     public class MeshGenerator
     {
-        private List<Point3DCollection> triangleEdges = new List<Point3DCollection>(); // Initialize triangleEdges
-
-        public MeshGeometry3D GenerateMesh(int tiles = 16, double size = 1.0)
-        {
-            MeshGeometry3D mesh = new MeshGeometry3D();
-            double offset = tiles * size / 2.0;
-            Random random = new Random();
-
-            //GeneratePositionsAndTextureCoordinates(tiles, size, offset, random);
-            //GenerateTriangleIndices(mesh, tiles);
-
-            return mesh;
-        }
 
         public MeshGeometry3D GeneratePositionsAndTextureCoordinates(int tiles, double size, double offset, Random random)
         {
@@ -43,6 +30,8 @@ namespace MyHelixApp.Mesh
 
         public List<Point3DCollection> GenerateTriangleIndices(MeshGeometry3D mesh, int tiles)
         {
+            List<Point3DCollection> triangleEdges = new List<Point3DCollection>(); // Initialize triangleEdges
+
             for (int i = 0; i < tiles; i++)
             {
                 for (int j = 0; j < tiles; j++)

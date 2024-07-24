@@ -27,13 +27,8 @@ namespace MyHelixApp.Visualization
             return modelVisual;
         }
 
-        public List<LinesVisual3D> CreateWireframe(MeshGeometry3D mesh, List<Point3DCollection> triangleEdges)
+        public List<LinesVisual3D> CreateWireframe(List<Point3DCollection> triangleEdges)
         {
-            //DiffuseMaterial textureMaterial = new DiffuseMaterial(imageBrush);
-
-            //CreateModelVisualWireframe();
-
-            // Add wireframe lines
             List<LinesVisual3D> wireframe = new List<LinesVisual3D>();
             foreach (var edge in triangleEdges)
             {
@@ -44,17 +39,8 @@ namespace MyHelixApp.Visualization
                     Points = edge
                 };
                 wireframe.Add(wire);
-                //helixViewport.Children.Add(wireframe);
             }
             return wireframe;
-
-
-            //ModelVisual3D modelVisual = new ModelVisual3D
-            //{
-            //    Content = geometryModel
-            //};
-
-            //return modelVisual;
         }
 
         public ModelVisual3D CreateModelVisualWireframe()
