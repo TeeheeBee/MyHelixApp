@@ -35,7 +35,7 @@ namespace MyHelixApp.Visualization
                 var wire = new LinesVisual3D
                 {
                     Thickness = 1,
-                    Color = Colors.Black,
+                    Color = Colors.Green,
                     Points = edge
                 };
                 wireframe.Add(wire);

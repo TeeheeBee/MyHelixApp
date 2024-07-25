@@ -8,7 +8,15 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <helix:HelixViewport3D x:Name="helixViewport" IsPanEnabled="True" ShowFrameRate="True" ShowCameraInfo="True" ShowCameraTarget="True" ShowCoordinateSystem="True" ShowFieldOfView="True" ShowTriangleCountInfo="True">
+        <helix:HelixViewport3D x:Name="helixViewport" 
+                               IsPanEnabled="True" 
+                               ShowFrameRate="True" 
+                               ShowCameraInfo="True" 
+                               ShowCameraTarget="True" 
+                               ShowCoordinateSystem="True" 
+                               ShowFieldOfView="True" 
+                               ShowTriangleCountInfo="True"
+                               MouseLeftButtonDown="h_MouseLeftButtonDown">
             <!--IsPanEnabled="True" MouseLeftButtonDown="HelixViewport_MouseLeftButtonDown" MouseLeftButtonUp="HelixViewport_MouseLeftButtonUp" MouseMove="HelixViewport_MouseMove">-->
 
 
