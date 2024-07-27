@@ -10,6 +10,7 @@ using System.Windows.Threading;
 using System.IO;
 using MyHelixApp.Mesh;
 using MyHelixApp.Visualization;
+using MyHelixApp.Helpers;
 
 namespace MyHelixApp
 {
@@ -21,8 +22,7 @@ namespace MyHelixApp
 
         private Dictionary<MeshGeometry3D, MeshGenerator.MeshInfo> meshIdentifiers = 
             new Dictionary<MeshGeometry3D, MeshGenerator.MeshInfo>();
-        private int heights = 128;
-        private double size = 256;
+        private int heights = 2;
         private const string imagePath = @"Images\earth.jpg"; //@"C:\Users\tbozic\source\repos\MyHelix3DApp\earth.jpg";
         private string fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, imagePath);
         private bool showWireframe = false; // Toggle state
@@ -194,8 +194,8 @@ namespace MyHelixApp
             // Set the camera
             helixViewport.Camera = new PerspectiveCamera
             {
-                Position = new Point3D(0, 0, size),
-                LookDirection = new Vector3D(0, 0, -size),
+                Position = new Point3D(0, 0, Const.worldSize),
+                LookDirection = new Vector3D(0, 0, -Const.worldSize),
                 UpDirection = new Vector3D(0, 1, 0),
                 FieldOfView = 90
 
@@ -242,12 +242,17 @@ namespace MyHelixApp
                 if (rayMeshResult != null)
                 {
                     Point3D pointHit = rayMeshResult.PointHit;
+                    (double longitude, double latitude) = GeoCoordinateConverter.GetGeoCoordinatesFromTile(pointHit.X, pointHit.Y, 0);
                     MeshGeometry3D meshHit = rayMeshResult.MeshHit;
                     //GeometryModel3D modelHit = rayMeshResult.ModelHit as GeometryModel3D;
                     if (meshHit != null && meshIdentifiers.TryGetValue(meshHit, out MeshGenerator.MeshInfo info))
                     {
                         // Display the results with the unique identifier for the mesh
-                        string resultMessage = $"Hit point: {pointHit}\nMesh ID: {info.Id}\nCoordinates: {info.Coordinates}";
+                        string resultMessage = $"Hit point: {pointHit}\n" +
+                                               $"Mesh ID: {info.Id}\n" +
+                                               $"Coordinates: {info.Coordinates}\n" +
+                                               $"latitude: {latitude}"  + " " +
+                                               $"longitude: {longitude}";
                         MessageBox.Show(resultMessage);
                     }
                     return HitTestResultBehavior.Stop;
@@ -267,7 +272,7 @@ namespace MyHelixApp
         {
             MeshGenerator meshGenerator = new MeshGenerator();
             mesh = meshGenerator.GeneratePositionsAndTextureCoordinates
-                (new Point3D(0,-1, 0), heights, size);
+                (new Point3D(0,-1, 0), heights, Const.worldSize);
             MeshGenerator.MeshInfo info = meshGenerator.SetMeshInfo(1, new Point3D(0, -1, 0));
             meshIdentifiers[mesh] = info;
             triangleEdges = meshGenerator.GenerateTriangleIndices(mesh, heights);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyHelixApp.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media.Media3D;
@@ -15,7 +16,7 @@ namespace MyHelixApp.Mesh
 
         public MeshGeometry3D GeneratePositionsAndTextureCoordinates(Point3D tileCoordinate, int heights, double size)
         {
-            double offset = 0;// = size / 2.0;
+            //double offset = size / 2.0;
             double heightDivision = size / heights;
             Random random = new Random();
             MeshGeometry3D mesh = new MeshGeometry3D();
@@ -23,9 +24,9 @@ namespace MyHelixApp.Mesh
             {
                 for (int j = 0; j <= heights; j++)
                 {
-                    double x = i * heightDivision + tileCoordinate.X - offset;
-                    double y = j * heightDivision + tileCoordinate.Y - offset;
-                    double z = random.NextDouble() * 1; //1/256
+                    double x = i * heightDivision + tileCoordinate.X - Const.offset;
+                    double y = j * heightDivision + tileCoordinate.Y - Const.offset;
+                    double z = random.NextDouble() * 1 / 5;
                     mesh.Positions.Add(new Point3D(x, y, z));
 
                     double u = (double)j / heightDivision;

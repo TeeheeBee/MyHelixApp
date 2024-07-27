@@ -89,6 +89,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helpers\Const.cs" />
+    <Compile Include="Helpers\GeoCoordinateConverter.cs" />
     <Compile Include="Mesh\MeshGlobeGenerator.cs" />
     <Compile Include="Visualization\ModelVisualCreator.cs" />
     <Page Include="MainWindow.xaml">
