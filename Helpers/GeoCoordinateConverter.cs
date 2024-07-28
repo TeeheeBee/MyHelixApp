@@ -1,9 +1,11 @@
-﻿using System;
+﻿using HelixToolkit.Wpf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media.Media3D;
 
 namespace MyHelixApp.Helpers
 {
@@ -82,7 +84,7 @@ namespace MyHelixApp.Helpers
             int numTiles = 1 << zoom;
             // mapPositionX / Const.worldSize stvara raspon od 0 do 1 --- +0.5 pomiče koordinate tako da je 
             double tileX = mapPositionX / Const.worldSize + .5;
-            double tileY = mapPositionY / Const.worldSize + .5; 
+            double tileY = mapPositionY / Const.worldSize + .5;
 
 
             double lon = (double)((tileX / Math.Pow(2.0, zoom) * 360.0) - 180.0);
@@ -275,6 +277,38 @@ namespace MyHelixApp.Helpers
         //    return Trnsfrm.Limit360(450.0f - bearing);
         //}
 
+        /// <summary>
+        /// Procjenjuje veličinu tile-a na ekranu na temelju udaljenosti kamere i zadanih 3D koordinata točke.
+        /// </summary>
+        /// <param name="point">3D točka u world spaceu.</param>
+        /// <param name="camera">Perspective kamera.</param>
+        /// <param name="helixViewport">Viewport3D kontrola.</param>
+        /// <returns>Procijenjena veličina tile-a na ekranu.</returns>
+        public static double EstimateTileSizeOnScreen(Point3D point, HelixViewport3D helixViewport)
+        {
+            // Izračunajte udaljenost između kamere i točke
+            var distance = (helixViewport.Camera.Position - point).Length;
 
+            // Kut vidnog polja kamere (Field of View) u radijanima
+            if (helixViewport.Camera is PerspectiveCamera perspectiveCamera)
+            {
+                double fov = Const.DEG_TO_RAD * perspectiveCamera.FieldOfView;
+
+                // Visina viewporta u pikselima
+                double viewportHeight = helixViewport.ActualHeight;
+
+                //// Izvorna veličina tile-a (256x256 piksela)
+                //double originalTileSize = 256.0;
+
+                // Procjena veličine tile-a na ekranu na temelju udaljenosti
+                double screenTileSize = Const.worldSize / distance * 2 * (viewportHeight / (2.0 * Math.Tan(fov / 2.0)));
+
+                return screenTileSize;
+            }
+            else
+            {
+                throw new InvalidOperationException("Kamera mora biti PerspectiveCamera.");
+            }
+        }
     }
 }

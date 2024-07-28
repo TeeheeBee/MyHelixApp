@@ -11,15 +11,16 @@ using System.IO;
 using MyHelixApp.Mesh;
 using MyHelixApp.Visualization;
 using MyHelixApp.Helpers;
+using MyHelixApp.ViewModels;
 
-namespace MyHelixApp
+namespace MyHelixApp.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml  !!!!
     /// </summary>
     public partial class MainWindow : Window
     {
-
+        private MainViewModel viewModel;
         private Dictionary<MeshGeometry3D, MeshGenerator.MeshInfo> meshIdentifiers = 
             new Dictionary<MeshGeometry3D, MeshGenerator.MeshInfo>();
         private int heights = 2;
@@ -32,10 +33,18 @@ namespace MyHelixApp
         public MainWindow()
         {
             InitializeComponent();
-
             Setup3DScene();
+
+            viewModel = new MainViewModel(helixViewport);
+            DataContext = viewModel;
             //helixViewport.PanGesture = null;
             //helixViewport.PanGesture2 = new MouseGesture(MouseAction.LeftClick);
+            this.SizeChanged += MainWindow_SizeChanged;
+        }
+
+        private void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            viewModel.UpdateTileSize();
         }
 
 
@@ -190,20 +199,24 @@ namespace MyHelixApp
 
         private void Setup3DScene()
         {
-
+            double fovDEG = 45;
+            //double fov = Const.DEG_TO_RAD * fovDEG;
+            //double fovCorrection = 2.0 * Math.Tan(fov / 2.0);
             // Set the camera
             helixViewport.Camera = new PerspectiveCamera
             {
                 Position = new Point3D(0, 0, Const.worldSize),
                 LookDirection = new Vector3D(0, 0, -Const.worldSize),
                 UpDirection = new Vector3D(0, 1, 0),
-                FieldOfView = 90
+                FieldOfView = fovDEG
 
             };
+
+
             // Add default lights
             helixViewport.Children.Add(new DefaultLights());
-            
-            
+
+
             //CreateMeshWithTextures();
 
 
@@ -217,6 +230,7 @@ namespace MyHelixApp
 
 
             helixViewport.Children.Add(meshModel);
+
         }
 
         private void h_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -272,8 +286,8 @@ namespace MyHelixApp
         {
             MeshGenerator meshGenerator = new MeshGenerator();
             mesh = meshGenerator.GeneratePositionsAndTextureCoordinates
-                (new Point3D(0,-1, 0), heights, Const.worldSize);
-            MeshGenerator.MeshInfo info = meshGenerator.SetMeshInfo(1, new Point3D(0, -1, 0));
+                (new Point3D(0, 0, 0), heights, Const.worldSize);
+            MeshGenerator.MeshInfo info = meshGenerator.SetMeshInfo(1, new Point3D(0, 0, 0));
             meshIdentifiers[mesh] = info;
             triangleEdges = meshGenerator.GenerateTriangleIndices(mesh, heights);
         }

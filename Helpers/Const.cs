@@ -9,7 +9,8 @@ namespace MyHelixApp.Helpers
     public static class Const
     {
         public const int maxZoom = 25;
-        public static double worldSize = GeoCoordinateConverter.GetNumberOfTilesX(Const.maxZoom);
+        public static double fov = DEG_TO_RAD * 90;
+        public static double worldSize = GeoCoordinateConverter.GetNumberOfTilesX(Const.maxZoom);// * 2.0 * Math.Tan(fov / 2.0);
         public static double offset = worldSize / 2.0;
         public const int StbPoints = 3;
         public static double KPH_TO_MPS = 0.277777777777777;

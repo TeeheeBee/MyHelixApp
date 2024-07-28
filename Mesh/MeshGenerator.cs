@@ -16,7 +16,6 @@ namespace MyHelixApp.Mesh
 
         public MeshGeometry3D GeneratePositionsAndTextureCoordinates(Point3D tileCoordinate, int heights, double size)
         {
-            //double offset = size / 2.0;
             double heightDivision = size / heights;
             Random random = new Random();
             MeshGeometry3D mesh = new MeshGeometry3D();
